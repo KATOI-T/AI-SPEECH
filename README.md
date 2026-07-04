@@ -8,9 +8,9 @@
 
 ## デモ
 
-<video src="https://github.com/KATOI-T/AI-SPEECH/raw/main/docs/demo.mov" controls muted width="100%"></video>
+<video src="https://github.com/KATOI-T/AI-SPEECH/raw/main/docs/demo.mp4" controls muted width="100%"></video>
 
-> 動画が再生されない場合は [docs/demo.mov](docs/demo.mov) から直接ご覧ください。
+> 動画が再生されない場合は [docs/demo.mp4](docs/demo.mp4) から直接ご覧ください。
 
 ---
 
