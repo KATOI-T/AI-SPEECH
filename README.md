@@ -125,6 +125,19 @@ cd frontend && npm run lint          # ESLint
 
 ---
 
+## ブランチ運用 / GitHub 保護ルール
+
+`main` / `develop` の保護ルール（直接書き込み・マージ権限）とリポジトリ削除ポリシーは、
+Terraform で IaC として管理しています。詳細・適用手順は [infra/github/README.md](infra/github/README.md) を参照してください。
+
+| 対象 | 直接書き込み | マージ（PR） |
+|------|------|------|
+| `main` | オーナーのみ | 管理者以上のみ |
+| `develop` | オーナーのみ | 誰でも OK |
+| リポジトリ削除 | オーナーのみ | — |
+
+---
+
 ## 環境変数
 
 `.env.example` をテンプレートとしてコピーし、`.env` に値を設定します。主な項目は次のとおりです。

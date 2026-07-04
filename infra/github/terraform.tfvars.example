@@ -1,0 +1,19 @@
+# このファイルを terraform.tfvars にコピーして値を設定してください。
+#   cp terraform.tfvars.example terraform.tfvars
+# terraform.tfvars は .gitignore 済みです（トークン等の機密を含むため）。
+
+github_owner   = "KATOI-T"
+repository     = "AI-SPEECH"
+main_branch    = "main"
+develop_branch = "develop"
+
+# main の PR マージに必要な承認数
+main_required_approvals = 1
+
+# main の Code Owner（管理者以上）。実在する Organization チームまたはユーザーを指定してください。
+#   例: "@KATOI-T/maintainers" / "@alice @bob"
+admin_codeowners = "@KATOI-T/maintainers"
+
+# 認証トークンは環境変数 GITHUB_TOKEN での指定を推奨します（ここには書かない）。
+# どうしてもファイルで渡す場合のみ:
+# github_token = "ghp_xxxxxxxxxxxxxxxxxxxx"
