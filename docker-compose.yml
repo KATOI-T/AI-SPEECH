@@ -1,0 +1,85 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:${BACKEND_PORT:-8000}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+      - ./docker/uploads:/app/public/models/uploads
+    depends_on:
+      - backend
+    networks:
+      - ai_speech_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-user}:${MYSQL_PASSWORD:-password}@${DB_HOST:-ai_speech-db-1}:3306/${MYSQL_DATABASE:-ai_speech}
+      - REDIS_URL=redis://redis:6379
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AZURE_SPEECH_KEY=${AZURE_SPEECH_KEY}
+      - AZURE_SPEECH_REGION=${AZURE_SPEECH_REGION}
+      - MODEL_UPLOADS_DIR=/uploads
+      - STORAGE_BACKEND=${STORAGE_BACKEND:-local}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-}
+      - S3_PRESIGNED_URL_EXPIRY=${S3_PRESIGNED_URL_EXPIRY:-3600}
+      - S3_UPLOAD_PREFIX=${S3_UPLOAD_PREFIX:-uploads}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_REGION=${AWS_REGION:-ap-northeast-1}
+    volumes:
+      - ./backend:/app
+      - ./docker/uploads:/uploads
+    depends_on:
+      redis:
+        condition: service_started
+    networks:
+      - ai_speech_network
+      - shared_db_network
+
+  db:
+    image: mysql:8.0
+    profiles:
+      - with-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-rootpassword}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-ai_speech}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shared_db_network
+      - ai_speech_network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - ./docker/redis/data:/data
+    networks:
+      - ai_speech_network
+
+networks:
+  ai_speech_network:
+    driver: bridge
+  shared_db_network:
+    external: true

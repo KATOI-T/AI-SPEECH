@@ -1,0 +1,42 @@
+erDiagram
+    scenarios {
+        BIGINT id PK
+        VARCHAR name
+        TEXT description
+        TEXT situation
+        TEXT goal
+        TEXT evaluation_criteria
+        BOOLEAN is_active
+    }
+    characters {
+        BIGINT id PK
+        VARCHAR name
+        TEXT persona
+        TEXT speaking_style
+        TEXT system_prompt
+        VARCHAR model_path
+        ENUM model_type
+        JSON voice_config
+        JSON animation_config
+        BOOLEAN is_active
+    }
+    session_settings {
+        BIGINT id PK
+        VARCHAR session_id UK
+        BOOLEAN voice_input_enabled
+        BOOLEAN auto_send
+        BOOLEAN mic_permission_checked
+    }
+    redis_sessions {
+        VARCHAR session_id PK
+        INT scenario_id FK
+        INT character_id FK
+        ENUM status
+        JSON conversation_history
+        INT turn_count
+        DATETIME expires_at
+    }
+
+    redis_sessions ||--o| scenarios : "references"
+    redis_sessions ||--o| characters : "references"
+    session_settings ||--o| redis_sessions : "linked by session_id"

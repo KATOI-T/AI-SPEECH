@@ -1,0 +1,2 @@
+# This directory is for uploaded 3D model files (VRM/GLB)
+# Files uploaded here will be accessible via /models/uploads/{filename}
