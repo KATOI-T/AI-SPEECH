@@ -64,6 +64,9 @@ make up-build
 
 > **Note**: `.env` は `.gitignore` 済みで、リポジトリには含まれません。API キーなどの機密情報は必ず `.env` にのみ記載してください。
 
+> **DB マイグレーション**: `make up` / `make up-build` では、バックエンド起動時に DB マイグレーション（`alembic upgrade head`）が自動適用されます。手動で再適用したい場合は `make migrate` を実行してください。
+> なお、`make up` / `make up-build`（ローカル DB）では `.env` の `DB_HOST=db` を、`make up-no-db`（外部 DB 接続）では外部 DB のコンテナ名（例: `ai_speech-db-1`）を設定します。
+
 ---
 
 ## 使い方

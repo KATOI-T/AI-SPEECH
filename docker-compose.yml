@@ -24,7 +24,7 @@ services:
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     environment:
-      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-user}:${MYSQL_PASSWORD:-password}@${DB_HOST:-ai_speech-db-1}:3306/${MYSQL_DATABASE:-ai_speech}
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-user}:${MYSQL_PASSWORD:-password}@${DB_HOST:-db}:3306/${MYSQL_DATABASE:-ai_speech}
       - REDIS_URL=redis://redis:6379
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - AZURE_SPEECH_KEY=${AZURE_SPEECH_KEY}
