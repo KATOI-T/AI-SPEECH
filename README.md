@@ -6,14 +6,6 @@
 
 ---
 
-## デモ
-
-<video src="https://github.com/KATOI-T/AI-SPEECH/raw/main/docs/demo.mp4" controls muted width="100%"></video>
-
-> 動画が再生されない場合は [docs/demo.mp4](docs/demo.mp4) から直接ご覧ください。
-
----
-
 ## 主な機能
 
 - 🗣️ **音声対話** — マイク入力を STT で文字化し、AI が応答、TTS で読み上げ
